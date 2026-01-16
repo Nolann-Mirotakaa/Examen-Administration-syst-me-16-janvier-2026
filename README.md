@@ -55,7 +55,7 @@ Répertoire         |    Contenu
 
 #### WSL (Windows Subsystem for Linux) : permet d’exécuter Linux sur Windows sans VM complète. Permet SSH, bash, apt et autres outils.
 
-* Permet l'utilisation de SSH, de apt, de bash sur windows
+* Permet l'utilisation de SSH, de apt et de bash sur windows
 
 ---
 
@@ -64,10 +64,10 @@ Répertoire         |    Contenu
 * Interdire la connection root via SSH
 ```
 sudo nano /etc/ssh/sshd_config
-# Modifier : PermitRootLogin no
 sudo ufw enable
 ```
 
+* Modifier le fichier de config sshd_config et passer PermitRootLogin à no
 * Configurer la connection par clé publique/privé
 * Activer le pare-feu
 
@@ -115,13 +115,13 @@ sudo apt install build-essential gcc make gdb vim git libncurses5-dev libssl-dev
 ## Qui fait quoi ?
 
 * Dernières connexions : `last`
-* Identifier les sessions sudo : `grep sudo /var/log/auth.log` (Debian) ou `/var/log/secure` (Red Hat) --> Ces commandes permettent de tracer l'activité des utilisateurs et l'usage des privilèges administratifs.
+* Identifier les sessions sudo : `grep sudo /var/log/auth.log` Debian --> cette commande permet de tracer l'activité des utilisateurs et l'usage des privilèges administratifs.
 
 ---
 
 ## Post mortem
 
-```bash
+```
 journalctl
 less /var/log/syslog
 less /var/log/messages
@@ -133,7 +133,7 @@ less /var/log/messages
 
 ## On surveille...
 
-```bash
+```
 systemctl is-enabled bidule    # auto-démarrage
 systemctl status bidule        # état actuel
 systemctl stop bidule          # arrête le service
@@ -149,8 +149,8 @@ systemctl stop bidule && systemctl status bidule  # arrête le service et demand
 
 ## Zut
 
-* Démarrage en mode recovery / single-user
-* Utilisation d’un live CD / USB pour monter le disque et réinitialiser le mot de passe root
+Si on a un accès physique à la machine, il est possible de reprendre la main sans connaître aucun mot de passe. Il suffit juste d'avoir les droits sur le démarage
+* Demarrer en Recovery
 
 ---
 
@@ -160,7 +160,8 @@ systemctl stop bidule && systemctl status bidule  # arrête le service et demand
 * `journalctl -u apache2` : logs du service
 * `netstat -tulpn` : ports ouverts
 * `curl -I http://localhost` : réponse HTTP
-* Vérifie l'état du service, les logs, les ports ouverts et la réponse HTTP.
+
+* les commandes au dessus nous permettent de vérifiet l'état d'un service, les logs, les ports ouverts ou encore la réponse HTTP.
 
 ---
 
@@ -174,12 +175,12 @@ sudo systemctl enable elasticsearch
 sudo systemctl start elasticsearch
 ```
 
-* Configuration principale : /etc/elasticsearch/elasticsearch.yml
-* Ces commandes installent et activent ElasticSearch sur Debian
+* A la fin de l'installation, il y a le fichier /etc/elasticsearch/elasticsearch.yml qui va ce créer
+* Les instructions ci-dessus servent à installer le paquet demander mais il s'agit du meme style de manipulation pour la plupart faut juste changer le nom
 
 ---
 
-## Gestion d'un serveur web multi-sites
+## Le Web
 
 * Paquets : `apache2`, `php`, `libapache2-mod-php`, `mysql-server`
 ```
